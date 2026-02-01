@@ -5,8 +5,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = BASE_DIR / "db" / "db.xlsx"
 
 def download_file():
-    file_path = "files/relatorio.pdf"
-
     return FileResponse(
         path=DB_PATH,
         filename="db.xlsx",

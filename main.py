@@ -10,7 +10,7 @@ app = FastAPI()
 def root():
     return {"msg": "Hello World"}
 
-@app.get("/get-product/{id}")
+@app.get("/product/{id}")
 def get_product(id):
     try:
         prod=db_service.get_product(id)
@@ -18,7 +18,7 @@ def get_product(id):
     except ValueError:
         return{"Error":"Valor de id não encontrado"}
 
-@app.get("/get-all-products")
+@app.get("/products")
 def get_all_products():
     return {"prods":db_service.get_all_products()}
 
@@ -31,7 +31,7 @@ def create_product(name):
     prod=db_service.create_product(name)
     return prod
 
-@app.put("/update-product/{id}")
+@app.put("/product/{id}")
 def update_product(id):
     try:
         prod=db_service.update_product(id)
@@ -39,16 +39,12 @@ def update_product(id):
     except ValueError:
         return{"Error":"Valor de id não encontrado"}
     
-@app.delete("/delete-product/{id}")
+@app.delete("product/{id}")
 def delete_product(id):
     try:
         return db_service.delete_product(id)
     except ValueError:
         return{"Error":"Valor de id não encontrado"}
-
-    
-    
-
 
 
 
