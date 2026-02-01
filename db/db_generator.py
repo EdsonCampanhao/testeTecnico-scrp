@@ -52,8 +52,8 @@ def create_line(ws,i,prod:Product):
     # Preenche uma linha com os dados do item
     ws.cell(row=i, column=1, value=i-1)  # A coluna A é o ID, que será 'i-1'
     ws.cell(row=i, column=2, value=prod.name)  # Coluna B: Nome
-    ws.cell(row=i, column=3, value=prod.lowestPrice)  # Coluna C: Preço
-    ws.cell(row=i, column=4, value=prod.sellerName)  # Coluna D: Vendedor
+    ws.cell(row=i, column=3, value=prod.lowest_price)  # Coluna C: Preço
+    ws.cell(row=i, column=4, value=prod.seller_name)  # Coluna D: Vendedor
     ws.cell(row=i, column=5, value=prod.link)  # Coluna D: Vendedor
 
     

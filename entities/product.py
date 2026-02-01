@@ -1,7 +1,7 @@
 class Product:
-    def __init__(self,name:str,link:str,lowestPrice:float,sellerName:str):
+    def __init__(self,name:str,link:str,lowest_price:float,seller_name:str):
         self.name=name
         self.link=link
-        self.lowestPrice=lowestPrice
-        self.sellerName=sellerName
+        self.lowest_price=lowest_price
+        self.seller_name=seller_name
         

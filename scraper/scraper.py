@@ -2,6 +2,8 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from entities.product import Product
 from urllib.parse import quote
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import random
         
 products:list[Product] = []
@@ -20,15 +22,14 @@ class ProductScraper:
     
         name = quote(name)
         self.driver.get(f"https://www.worten.pt/search?query={name}&sort_by=rank-price&order_by=asc")
-        sleep(random.uniform(3, 5))
         
         #utilizando execute script para remover o modal dos cookies sem id.
         self.driver.execute_script("""
             var modal = document.querySelector('.modal-cookies');
             if(modal) modal.remove();
-            """)        
+            """)   
+        nameProd = self.safe_call(self.get_name,"erro ao localizar nome")      
         link = self.safe_call(self.get_link,'erro ao localizar link')
-        nameProd = self.safe_call(self.get_name,"erro ao localizar nome") 
         lowest_price = self.safe_call(self.get_lowest_price,"erro ao localizar valor")
         seller_name = self.safe_call(self.get_seller_name,"erro ao localizar nome")
         
@@ -43,7 +44,9 @@ class ProductScraper:
         return prod
       
     def get_name(self):
-        name_tag = self.driver.find_element(By.XPATH,'//h3[@itemprop="name"][1]')
+        name_tag = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//h3[@itemprop="name"][1]'))
+        )
         name = name_tag.get_attribute("textContent")
         return name
         
