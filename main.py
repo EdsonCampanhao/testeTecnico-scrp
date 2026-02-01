@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from services.scraper_service import get_product_service
 from db.db_generator import db_generator
 from services import db_service
+from services import dowload_service
 
 app = FastAPI()
 
@@ -16,8 +17,15 @@ def get_product(id):
         return{"prod":prod}
     except ValueError:
         return{"Error":"Valor de id não encontrado"}
-    
 
+@app.get("/get-all-products")
+def get_all_products():
+    return {"prods":db_service.get_all_products()}
+
+@app.get("/dowload-db")
+def dowload_db():
+    return dowload_service.download_file()
+    
 @app.post("/create-product/{name}")
 def create_product(name):
     prod=db_service.create_product(name)

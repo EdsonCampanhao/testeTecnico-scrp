@@ -23,11 +23,6 @@ class ProductScraper:
         name = quote(name)
         self.driver.get(f"https://www.worten.pt/search?query={name}&sort_by=rank-price&order_by=asc")
         
-        #utilizando execute script para remover o modal dos cookies sem id.
-        self.driver.execute_script("""
-            var modal = document.querySelector('.modal-cookies');
-            if(modal) modal.remove();
-            """)   
         nameProd = self.safe_call(self.get_name,"erro ao localizar nome")      
         link = self.safe_call(self.get_link,'erro ao localizar link')
         lowest_price = self.safe_call(self.get_lowest_price,"erro ao localizar valor")
@@ -47,11 +42,18 @@ class ProductScraper:
         name_tag = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//h3[@itemprop="name"][1]'))
         )
+        sleep(5)
+         #utilizando execute script para remover o modal dos cookies sem id.
+        self.driver.execute_script("""
+            var modal = document.querySelector('.modal-cookies');
+            if(modal) modal.remove();
+            """)   
+        
         name = name_tag.get_attribute("textContent")
         return name
         
     def get_link(self):
-        link_tag=self.driver.find_element(By.XPATH,"//a[@class='w-app-link'][1]")
+        link_tag=self.driver.find_element(By.XPATH,"//a[@itemprop='url'][1]")
         link=link_tag.get_attribute('href')
         return link
         

@@ -7,7 +7,7 @@ def get_product_service(name:list|str):
     options = Options()
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--start-maximized")
-    options.add_argument("--headless")  
+    # options.add_argument("--headless")  
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
     driver = webdriver.Chrome(options=options)
     scraper = ProductScraper(driver)

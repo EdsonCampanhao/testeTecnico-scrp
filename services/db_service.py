@@ -27,12 +27,32 @@ def get_product(id):
     wb.close()
     raise ValueError(f"Produto com id {id} não encontrado")
 
+def get_all_products():
+    wb = openpyxl.load_workbook(DB_PATH)
+    ws = wb.active
+    prods = []
+    
+    for row in ws.iter_rows(min_row=2, values_only=True):
+            prod = Product(
+                row[1],
+                row[4],
+                row[2],
+                row[3]
+            )
+            # id está sendo posto aqui, pois o campo de atributo id só foi criado após a criação do db
+            prod.id=row[0]
+            wb.close()
+            prods.append(prod) 
+    wb.close()
+    return prods
+    
+
 def create_product(name):
     wb = openpyxl.load_workbook(DB_PATH)
     ws = wb.active
     
     prod = get_product_service(name)
-    prod.id=ws[f"A{ws.max_row}"].value+1
+    prod.id=ws[f"A{ws.max_row}"].value+1 # utilizando o id de referencia da ultima row preenchida para evitar conflitos entre posição física/lógica
     ws.append([prod.id,prod.name,prod.lowest_price,prod.seller_name,prod.link])
     wb.save(DB_PATH)
     
@@ -71,6 +91,8 @@ def delete_product(id):
 
     wb.close()
     raise ValueError(f"Produto com id {id} não encontrado")
+
+
     
 
 
