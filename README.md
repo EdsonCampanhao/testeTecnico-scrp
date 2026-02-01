@@ -16,11 +16,34 @@ Em um ambiente real, essas funcionalidades seriam protegidas por:
 
 ---
 
+# 📋 Requisitos Funcionais do Sistema
+
+Desenvolver uma aplicação capaz de consultar automaticamente o site **worten.pt**, extrair informações de produtos e disponibilizá-las por meio de uma **API REST**, permitindo gerenciamento completo dos dados e exportação em arquivo.
+
+---
+
+## 🔍 Coleta de Dados (Web Scraping)
+
+O sistema deve consultar o site **https://www.worten.pt** para cada produto monitorado e extrair os seguintes dados:
+
+- **Nome do produto**
+- **Link do produto**
+- **Menor preço encontrado**
+- **Nome do vendedor (loja)** que oferece o menor preço
+
+### Regras:
+- A consulta deve buscar sempre o **menor preço disponível** no momento da extração.
+- Caso existam múltiplos vendedores, apenas o vendedor com o menor preço deve ser considerado.
+- Os dados extraídos devem ser armazenados localmente para uso pela API.
+
+---
+
 ## 🚀 Tecnologias Utilizadas
 - Python
 - FastAPI
-- Uvicorn
-- OpenAPI / Swagger
+- Openpyxl
+- Selenium
+- Swagger
 - Banco de dados em arquivo (`.xlsx`)
 
 ---
@@ -37,13 +60,13 @@ python -m venv venv
 
 ### 3️⃣ Ativar o ambiente virtual
 
-Windowns>
+Windows
 
 ```
 venv\Scripts\activate
 ```
 
-Linux>
+Linux
 ```
 source venv/bin/activate
 ```
@@ -63,4 +86,7 @@ uvicorn app.main:app --reload
 ### 6️⃣ Acessar a aplicação
 
 API: http://127.0.0.1:8000
+
 Swagger (documentação interativa): http://127.0.0.1:8000/docs
+
+
