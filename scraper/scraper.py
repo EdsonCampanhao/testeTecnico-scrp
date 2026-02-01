@@ -1,15 +1,9 @@
 from time import sleep
 from selenium.webdriver.common.by import By
-
-
-class Product:
-    def __init__(self,name:str,link:str,lowestPrice:float,sellersName:str):
-        self.name=name
-        self.link=link
-        self.lowestPrice=lowestPrice
-        self.sellersName=sellersName
+from entities.product import Product
+from urllib.parse import quote
+import random
         
-
 products:list[Product] = []
     
     
@@ -20,9 +14,13 @@ class ProductScraper:
         pass
 
     def search_product(self, name: str):
-        
+    
+        if name is None or not isinstance(name, str):
+            return None 
+    
+        name = quote(name)
         self.driver.get(f"https://www.worten.pt/search?query={name}&sort_by=rank-price&order_by=asc")
-        sleep(7)
+        sleep(random.uniform(3, 5))
         
         #utilizando execute script para remover o modal dos cookies sem id.
         self.driver.execute_script("""
@@ -30,8 +28,6 @@ class ProductScraper:
             if(modal) modal.remove();
             """)        
         link = self.safe_call(self.get_link,'erro ao localizar link')
-        self.driver.get(link)
-        sleep(3)
         nameProd = self.safe_call(self.get_name,"erro ao localizar nome") 
         lowest_price = self.safe_call(self.get_lowest_price,"erro ao localizar valor")
         seller_name = self.safe_call(self.get_seller_name,"erro ao localizar nome")
@@ -47,7 +43,7 @@ class ProductScraper:
         return prod
       
     def get_name(self):
-        name_tag = self.driver.find_element(By.XPATH,'//h1[@class="product-header__title"]/span')
+        name_tag = self.driver.find_element(By.XPATH,'//h3[@itemprop="name"][1]')
         name = name_tag.get_attribute("textContent")
         return name
         
@@ -64,7 +60,7 @@ class ProductScraper:
         return float(f"{value}.{decimal}")
     
     def get_seller_name(self):
-        seller_tag = self.driver.find_element(By.XPATH,'//div[@class="product-price-info__seller--inline product-price-info__seller"]/div/a/span')
+        seller_tag = self.driver.find_element(By.XPATH,'//b[@itemprop="seller"][1]')
         seller_name = seller_tag.get_attribute("textContent")
         return seller_name
     
