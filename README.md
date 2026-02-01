@@ -80,7 +80,7 @@ python -m pip install -r requirements.txt
 ### 5️⃣ Rodar a aplicação
 
 ```
-uvicorn app.main:app --reload
+python -m uvicorn main:app --reload
 ```
 
 ### 6️⃣ Acessar a aplicação
