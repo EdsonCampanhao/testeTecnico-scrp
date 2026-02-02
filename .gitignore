@@ -148,4 +148,5 @@ Thumbs.db
 
 # Logs
 *.log
-**/teste.py
+
+**worten.xlsx
